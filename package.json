@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "npx babel src --watch --out-dir dist",
-    "build": "npx babel src --out-dir dist"
+    "build": "npx babel src --out-dir dist",
+    "publish": "npm version patch && npm run build && npm publish"
   }
 }
