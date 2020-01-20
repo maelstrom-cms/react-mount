@@ -1,7 +1,7 @@
 {
   "name": "@maelstrom-cms/react-mount",
   "description": "Easily mount react components from your HTML with prop support",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Owen Melbourne <owenmelbz@gmail.com>",
   "bugs": {
     "url": "https://github.com/maelstrom-cms/react-mount/issues",
@@ -29,7 +29,7 @@
     "url": "https://github.com/maelstrom-cms/react-mount"
   },
   "scripts": {
-      "start": "npx babel src --watch --out-dir dist",
-      "build": "npx babel src --out-dir dist"
+    "start": "npx babel src --watch --out-dir dist",
+    "build": "npx babel src --out-dir dist"
   }
 }
