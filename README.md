@@ -1,21 +1,15 @@
 # react-mount
 
-[![build status](https://img.shields.io/travis/com/OwenMelbz/react-mount.svg)](https://travis-ci.com/OwenMelbz/react-mount)
-[![code coverage](https://img.shields.io/codecov/c/github/OwenMelbz/react-mount.svg)](https://codecov.io/gh/OwenMelbz/react-mount)
-[![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
-[![license](https://img.shields.io/github/license/OwenMelbz/react-mount.svg)](LICENSE)
-[![npm downloads](https://img.shields.io/npm/dt/react-mount.svg)](https://npm.im/react-mount)
+Easily mount react components from your HTML with simple prop support e.g.
 
-> Easily mount react components from your HTML with prop support
-
+```html
+<div data-mount="SomeComponent" data-some-title="Hello World" data-settings='{"enabled": true}'></div>
+```
 
 ## Table of Contents
 
 * [Install](#install)
 * [Usage](#usage)
-* [Contributors](#contributors)
 * [License](#license)
 
 
@@ -24,42 +18,103 @@
 [npm][]:
 
 ```sh
-npm install react-mount
+npm i @maelstrom-cms/react-mount
 ```
 
 [yarn][]:
 
 ```sh
-yarn add react-mount
+yarn add @maelstrom-cms/react-mount
 ```
 
 
 ## Usage
 
+### Mounting Components
+
+First register all of your components e.g.
+
 ```js
-const ReactMount = require('react-mount');
+import Mount from '@maelstrom-cms/react-mount';
+import SomeComponent from './src/SomeComponent.js'
 
-const reactMount = new ReactMount();
+Mount({
+    SomeComponent,
+})
 
-console.log(reactMount.renderName());
-// script
+// same as
+
+Mount({
+    'SomeComponent': SomeComponent,
+})
 ```
 
+Use the `data-mount` attribute to define which react component to mount on this element.
 
-## Contributors
+```html
+<div data-mount="SomeComponent" data-some-title="Hello World" data-settings='{"enabled": true}'></div>
+```
 
-| Name               | Website                         |
-| ------------------ | ------------------------------- |
-| **Owen Melbourne** | <https://www.owenmelbourne.com> |
+> If you're dynamically importing files using code-splitting, you can execute the "Mount" method from within your components file.
+
+### Passing and Parsing Props
+
+By default, any `data-` attribute will be passed to your component as a prop, allowing you to accept data from server-side systems.
+
+You can apply some additional parsing to these, for example objects e.g.
+
+```js
+import parseProps from '@maelstrom-cms/react-mount/dist/parseProps';
+
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.settings = parseProps(props, 'settings');
+        // this.settings will now be a JSON object.
+    }
+}
+```
+
+### Cloaking and Loading
+
+Whilst the page is loading you might see a flash of un-styled content, you can get around this 2 ways.
+
+#### Provide some default HTML within the document e.g.
+
+```html
+<div data-mount="MyComponent">
+    <svg class="spinner" ...></svg>
+    Loading.....
+</div>
+```
+
+or you can choose to hide the component completely e.g.
+
+```html
+<div class="cloak" data-mount="MyComponent"></div>
+```
+
+Add the CSS snippet
+
+```css
+.cloak { display: none; }
+```
+
+If you want to use an alternative class name (make sure it's unique e.g. do not use "hidden") you can use the `setCloakClass` e.g.
+
+```js
+import { setCloakClass } from '@maelstrom-cms/react-mount/src/mount';
+
+setCloakClass('my-cloak-class');
+
+Mount({
+    AnotherComponent
+});
+```
+
+> Make sure you set the cloak class BEFORE mounting the components.
 
 
 ## License
 
-[MIT](LICENSE) © [Owen Melbourne](https://www.owenmelbourne.com)
-
-
-## 
-
-[npm]: https://www.npmjs.com/
-
-[yarn]: https://yarnpkg.com/
+[MIT](LICENSE) © [Maelstrom CMS](https://www.maelstrom-cms.com)
