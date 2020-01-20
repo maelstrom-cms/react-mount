@@ -2,24 +2,24 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import unCloak from './unCloak';
 
+let cloakClass = 'cloak';
+
+export const setCloakClass = function (className) {
+    cloakClass = className;
+};
+
 const Mount = function (components) {
-    this.cloakClass = 'cloak';
-
-    this.setCloakClass = function (className) {
-        this.cloakClass = className;
-    };
-
-    this.items = [];
+    const items = [];
 
     Object.keys(components).forEach(name => {
         const component = components[name];
 
         // Only register it once.
-        if (this.items[name]) {
+        if (items[name]) {
             return
         }
 
-        this.items[name] = component;
+        items[name] = component;
 
         Array.from(document.querySelectorAll(`[data-mount="${name}"]`)).forEach(element => {
             const $el = element.cloneNode(true);
@@ -31,7 +31,7 @@ const Mount = function (components) {
         })
     });
 
-    unCloak(this.cloakClass);
+    unCloak(cloakClass);
 };
 
 export default Mount;
