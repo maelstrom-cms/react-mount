@@ -9,10 +9,10 @@ export const setCloakClass = function (className) {
 };
 
 const Mount = function (components) {
-    const items = [];
+    const items = {};
 
     Object.keys(components).forEach(name => {
-        const component = components[name];
+        let component = components[name];
 
         // Only register it once.
         if (items[name]) {
@@ -21,8 +21,13 @@ const Mount = function (components) {
 
         items[name] = component;
 
-        Array.from(document.querySelectorAll(`[data-mount="${name}"]`)).forEach(element => {
+        Array.from(document.querySelectorAll(`[data-mount="${name}"]`)).forEach(async element => {
             const $el = element.cloneNode(true);
+
+            if (component.toLocaleString().indexOf('then(__webpack_require') !== -1) {
+                const lazyLoadedComponent = await component();
+                component = lazyLoadedComponent.default;
+            }
 
             render(
                 React.createElement(component, { ...element.dataset, $el }),

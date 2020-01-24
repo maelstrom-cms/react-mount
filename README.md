@@ -15,18 +15,9 @@ Easily mount react components from your HTML with simple prop support e.g.
 
 ## Install
 
-[npm][]:
-
 ```sh
 npm i @maelstrom-cms/react-mount
 ```
-
-[yarn][]:
-
-```sh
-yarn add @maelstrom-cms/react-mount
-```
-
 
 ## Usage
 
@@ -54,8 +45,18 @@ Use the `data-mount` attribute to define which react component to mount on this 
 ```html
 <div data-mount="SomeComponent" data-some-title="Hello World" data-settings='{"enabled": true}'></div>
 ```
+#### Dynamically importing components
 
-> If you're dynamically importing files using code-splitting, you can execute the "Mount" method from within your components file.
+If you want to lazy load components, you can do so by using the `import()` function
+
+```js
+Mount({
+    StaticComponent,
+    LazyComponent: () => import('./components/LazyComponent'),
+})
+```
+
+> Currently we only support webpacks import method, if you need to dynamically mount components, consider using `Mount()` directly in your lazy loaded files.
 
 ### Passing and Parsing Props
 
