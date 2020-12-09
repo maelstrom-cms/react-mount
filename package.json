@@ -1,7 +1,7 @@
 {
   "name": "@maelstrom-cms/react-mount",
   "description": "Easily mount react components from your HTML with prop support",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "author": "Owen Melbourne <owenmelbz@gmail.com>",
   "bugs": {
     "url": "https://github.com/maelstrom-cms/react-mount/issues",
