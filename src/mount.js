@@ -22,9 +22,13 @@ const Mount = function (components) {
         items[name] = component;
 
         Array.from(document.querySelectorAll(`[data-mount="${name}"]`)).forEach(async element => {
-            const $el = element.cloneNode(true);
+            const $el = element.cloneNode(true),
+                code = component.toLocaleString();
 
-            if (component.toLocaleString().indexOf('then(__webpack_require') !== -1) {
+            if (
+                code.indexOf('then(__webpack_require') !== -1 ||
+                code.indexOf('function(){return') === 0
+            ) {
                 const lazyLoadedComponent = await component();
                 component = lazyLoadedComponent.default;
             }
