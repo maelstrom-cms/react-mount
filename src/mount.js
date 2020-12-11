@@ -23,7 +23,7 @@ const Mount = function (components) {
 
         Array.from(document.querySelectorAll(`[data-mount="${name}"]`)).forEach(async element => {
             const $el = element.cloneNode(true),
-                code = component.toLocaleString();
+                code = component.toLocaleString().replace(/\s/g,'');
 
             if (
                 code.indexOf('then(__webpack_require') !== -1 ||
